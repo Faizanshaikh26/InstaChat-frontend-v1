@@ -892,8 +892,8 @@ const Chat = ({ chatId, user }) => {
     if (!message.trim()) return;
 
     // Emitting the message to the server
-    sendmessagenoti.play()
     socket.emit(NEW_MESSAGE, { chatId, members, message });
+    sendmessagenoti.play()
     setMessage("");
   };
 

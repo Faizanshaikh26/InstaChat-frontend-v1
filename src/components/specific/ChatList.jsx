@@ -67,8 +67,8 @@ const ChatList = ({
 }) => {
   return (
     <div
-    className={`overflow-y-auto h-full box-border  ${w} border-r-[1px] border-[#ABA6A6] shadow-lg`}
-    style={{ backgroundColor: "#FAFAFA", color: "#0E1514" }}
+    className={`overflow-y-auto h-full box-border  ${w} border-r-[1px] border-[#ABA6A6] shadow-lg bg-[#FAFAFA] text-[#0E1514]`}
+    
   >
     {chats?.map((data, index) => {
       const { _id, avatar, name, groupChat, members } = data;

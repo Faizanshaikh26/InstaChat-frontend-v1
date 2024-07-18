@@ -96,7 +96,7 @@ const ChatItem = ({
         initial={{ opacity: 0, y: "-100%" }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 * index }}
-        className={`flex gap-4 items-center p-4 border-b bg-[#ffffff] text-[#111b21] border-white ${sameSender ? 'bg-[#f0f2f5] text-[#0E1514]' : 'text-[#111b21]'} hover:bg-[#f0f2f5] transition duration-200 ease-in-out`}
+        className={`flex gap-4 items-center p-4 border-b bg-[#FAFAFA] text-[#111b21] border-white ${sameSender ? 'bg-[#f0f2f5] text-[#0E1514]' : 'text-[#111b21]'} hover:bg-[#f0f2f5] transition duration-200 ease-in-out`}
       >
          <div className="flex-shrink-0 ">
         <AvatarCard avatar={avatar}/>

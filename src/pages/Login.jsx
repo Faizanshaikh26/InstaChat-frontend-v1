@@ -35,19 +35,93 @@ const Login = () => {
 
   const dispatch = useDispatch();
 
+  // const handleLogin = async (e) => {
+  //   e.preventDefault();
+
+  //   const toastId = toast.loading("Logging In...");
+
+  //   setIsLoading(true);
+  //   const config = {
+  //     withCredentials: true,
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   };
+
+  //   try {
+  //     const { data } = await axios.post(
+  //       `${server}/api/v1/user/login`,
+  //       {
+  //         username: username.value,
+  //         password: password.value,
+  //       },
+  //       config
+  //     );
+  //     dispatch(userExists(data.user));
+  //     toast.success(data.message, {
+  //       id: toastId,
+  //     });
+  //   } catch (error) {
+  //     toast.error(error?.response?.data?.message || "Something Went Wrong", {
+  //       id: toastId,
+  //     });
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
+
+  // const handleSignUp = async (e) => {
+  //   e.preventDefault();
+
+  //   const toastId = toast.loading("Signing Up...");
+  //   setIsLoading(true);
+
+  //   const formData = new FormData();
+  //   formData.append("avatar", avatar.file);
+  //   formData.append("name", name.value);
+  //   formData.append("bio", bio.value);
+  //   formData.append("username", username.value);
+  //   formData.append("password", password.value);
+
+  //   const config = {
+  //     withCredentials: true,
+  //     headers: {
+  //       "Content-Type": "multipart/form-data",
+  //     },
+  //   };
+
+  //   try {
+  //     const { data } = await axios.post(
+  //       `${server}/api/v1/user/new`,
+  //       formData,
+  //       config
+  //     );
+
+  //     dispatch(userExists(data.user));
+  //     toast.success(data.message, {
+  //       id: toastId,
+  //     });
+  //   } catch (error) {
+  //     toast.error(error?.response?.data?.message || "Something Went Wrong", {
+  //       id: toastId,
+  //     });
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
   const handleLogin = async (e) => {
     e.preventDefault();
-
+  
     const toastId = toast.loading("Logging In...");
-
     setIsLoading(true);
+  
     const config = {
       withCredentials: true,
       headers: {
         "Content-Type": "application/json",
       },
     };
-
+  
     try {
       const { data } = await axios.post(
         `${server}/api/v1/user/login`,
@@ -57,10 +131,17 @@ const Login = () => {
         },
         config
       );
+  
       dispatch(userExists(data.user));
       toast.success(data.message, {
         id: toastId,
       });
+  
+      // Set the flag in local storage
+      localStorage.setItem("hasReloaded", "true");
+  
+      // Reload the page
+      window.location.reload();
     } catch (error) {
       toast.error(error?.response?.data?.message || "Something Went Wrong", {
         id: toastId,
@@ -69,38 +150,44 @@ const Login = () => {
       setIsLoading(false);
     }
   };
-
+  
   const handleSignUp = async (e) => {
     e.preventDefault();
-
+  
     const toastId = toast.loading("Signing Up...");
     setIsLoading(true);
-
+  
     const formData = new FormData();
     formData.append("avatar", avatar.file);
     formData.append("name", name.value);
     formData.append("bio", bio.value);
     formData.append("username", username.value);
     formData.append("password", password.value);
-
+  
     const config = {
       withCredentials: true,
       headers: {
         "Content-Type": "multipart/form-data",
       },
     };
-
+  
     try {
       const { data } = await axios.post(
         `${server}/api/v1/user/new`,
         formData,
         config
       );
-
+  
       dispatch(userExists(data.user));
       toast.success(data.message, {
         id: toastId,
       });
+  
+      // Set the flag in local storage
+      localStorage.setItem("hasReloaded", "true");
+  
+      // Reload the page
+      window.location.reload();
     } catch (error) {
       toast.error(error?.response?.data?.message || "Something Went Wrong", {
         id: toastId,
@@ -109,6 +196,7 @@ const Login = () => {
       setIsLoading(false);
     }
   };
+  
 
   return (
     <div

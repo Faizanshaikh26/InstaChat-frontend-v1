@@ -403,6 +403,7 @@ import {
 } from "../../redux/reducers/misc";
 import { resetNotificationCount } from "../../redux/reducers/chat";
 import AvatarCard from "../shared/AvatarCard";
+import { server } from "../../constants/config";
 
 const SearchDialog = lazy(() => import("../specific/Search"));
 const NotifcationDialog = lazy(() => import("../specific/Notifications"));
@@ -441,6 +442,17 @@ const Header = ({ data, chatId,user ,onlineUsers}) => {
 
   const navigateToGroup = () => navigate("/groups");
 
+  // const logoutHandler = async () => {
+  //   try {
+  //     const { data } = await axios.get(`${server}/api/v1/user/logout`, {
+  //       withCredentials: true,
+  //     });
+  //     dispatch(userNotExists());
+  //     toast.success(data.message);
+  //   } catch (error) {
+  //     toast.error(error?.message)
+  //   }
+  // };
   const logoutHandler = async () => {
     try {
       const { data } = await axios.get(`${server}/api/v1/user/logout`, {
@@ -448,11 +460,14 @@ const Header = ({ data, chatId,user ,onlineUsers}) => {
       });
       dispatch(userNotExists());
       toast.success(data.message);
+  
+      // Clear the flag in local storage
+      localStorage.removeItem("hasReloaded");
     } catch (error) {
       toast.error(error?.response?.data?.message || "Something went wrong");
     }
   };
-
+  
   return (
     <>
       <Box sx={{ flexGrow: 1 }} height={"4rem"}>
@@ -617,13 +632,8 @@ export default Header;
 
 const ChatNavbar = ({ chat,onlineUsers }) => {
   if (!chat) {
-    return (
-      <Box className="w-full relative">
-        <Typography variant="body1" className="font-bold text-sm md:text-lg">
-          Loading chat...
-        </Typography>
-      </Box>
-    );
+    return null
+    
   }
 
   const { name, avatar ,members} = chat;
