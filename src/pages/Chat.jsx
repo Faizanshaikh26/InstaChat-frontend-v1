@@ -922,12 +922,18 @@ const Chat = ({ chatId, user }) => {
   const newMessagesListener = useCallback(
     (data) => {
       if (data.chatId !== chatId) return;
-
-      recivemessagenoti.play()
+      
+      // Check if the current user is not the sender
+      if (data.message.sender._id !== user._id) {
+        recivemessagenoti.play(); // Play the receiving sound
+      }
+      
       setMessages((prev) => [...prev, data.message]);
     },
-    [chatId]
+    [chatId, user._id]
   );
+  
+
 
   const startTypingListener = useCallback(
     (data) => {
