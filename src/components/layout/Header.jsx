@@ -408,9 +408,11 @@ const SearchDialog = lazy(() => import("../specific/Search"));
 const NotifcationDialog = lazy(() => import("../specific/Notifications"));
 const NewGroupDialog = lazy(() => import("../specific/NewGroup"));
 
-const Header = ({ data, chatId,user }) => {
+const Header = ({ data, chatId,user ,onlineUsers}) => {
   const chat = data?.chats?.find((chat) => chat._id === chatId);
+  
   const {avatar }=user
+  
   
  
 
@@ -523,7 +525,7 @@ const Header = ({ data, chatId,user }) => {
                   flexGrow: 1,
                 }}
               >
-                <ChatNavbar chat={chat} />
+                <ChatNavbar chat={chat}  onlineUsers={onlineUsers}/>
               </Box>
          
 
@@ -613,7 +615,7 @@ const IconBtn = ({ title, icon, onClick, value }) => {
 
 export default Header;
 
-const ChatNavbar = ({ chat }) => {
+const ChatNavbar = ({ chat,onlineUsers }) => {
   if (!chat) {
     return (
       <Box className="w-full relative">
@@ -624,7 +626,9 @@ const ChatNavbar = ({ chat }) => {
     );
   }
 
-  const { name, avatar } = chat;
+  const { name, avatar ,members} = chat;
+  
+  const isOnline = members?.some((member) => onlineUsers.includes(member));
 
   return (
     <Box className="  lg:w-[90%] lg:ml-[11.8%] border-l-2 border-[#e8e8e8]" >
@@ -638,6 +642,9 @@ const ChatNavbar = ({ chat }) => {
         }}>
           {name}
         </Typography>
+        {
+          isOnline ? (<span>Online</span>):(<span>Offline</span>)
+        }
       </Box>
     </Box>
   );
