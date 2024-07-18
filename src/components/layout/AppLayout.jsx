@@ -255,7 +255,7 @@ const AppLayout = () => (WrappedComponent) => {
     return (
       <>
         <Title />
-        <Header />
+        <Header data={data} chatId={chatId} onlineUsers={onlineUsers} user={user}/>
 
         <DeleteChatMenu
           dispatch={dispatch}
