@@ -1,10 +1,13 @@
 import React from "react";
 import { Avatar, Box, Grid, Stack, Typography } from "@mui/material";
 import moment from "moment";
+import {useNavigate} from 'react-router-dom'
+import UpdateProfile from "./UpdateProfile";
 
 function Profile({ user }) {
   const { avatar, bio, createdAt, email, name, username } = user;
   const avatarUrl = avatar.url;
+  const navigate=useNavigate()
 
   return (
     <Box
@@ -26,6 +29,23 @@ function Profile({ user }) {
         },
       }}
     >
+      <Box
+        component="span"
+        sx={{
+          color: "#231E39",
+          backgroundColor: "#FEBB0B",
+          borderRadius: "8px",
+          fontWeight: "bold",
+          fontSize: "0.875rem",
+          padding: "4px 8px",
+          position: "absolute",
+          top: "20px",
+          left: "20px",
+        }}
+        onClick={()=>navigate("/updateProfile")}
+      >
+        Edit Profile
+        </Box>
       
       <Box
         sx={{

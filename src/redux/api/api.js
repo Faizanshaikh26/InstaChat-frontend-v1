@@ -22,7 +22,7 @@ const api = createApi({
       }),
       providesTags: ["User"],
     }),
-
+ 
     sendFriendRequest: builder.mutation({
       query: (data) => ({
         url: "user/sendrequest",
@@ -180,4 +180,5 @@ export const {
   useAddGroupMembersMutation,
   useDeleteChatMutation,
   useLeaveGroupMutation,
+ 
 } = api;

@@ -1,6 +1,10 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { adminLogin, adminLogout, getAdmin } from "../thunks/admin";
-import toast from "react-hot-toast";
+// src/slices/authSlice.js
+
+import { createSlice } from '@reduxjs/toolkit';
+import { adminLogin, adminLogout, getAdmin } from '../thunks/admin';
+// Import the updateProfile thunk
+import toast from 'react-hot-toast';
+import { updateProfile } from '../thunks/profile';
 
 const initialState = {
   user: null,
@@ -9,7 +13,7 @@ const initialState = {
 };
 
 const authSlice = createSlice({
-  name: "auth",
+  name: 'auth',
   initialState,
   reducers: {
     userExists: (state, action) => {
@@ -39,7 +43,7 @@ const authSlice = createSlice({
           state.isAdmin = false;
         }
       })
-      .addCase(getAdmin.rejected, (state, action) => {
+      .addCase(getAdmin.rejected, (state) => {
         state.isAdmin = false;
       })
       .addCase(adminLogout.fulfilled, (state, action) => {
@@ -49,6 +53,13 @@ const authSlice = createSlice({
       .addCase(adminLogout.rejected, (state, action) => {
         state.isAdmin = true;
         toast.error(action.error.message);
+      })
+      .addCase(updateProfile.fulfilled, (state, action) => {
+        state.user = action.payload; // Update user info with new data
+        toast.success('Profile updated successfully!');
+      })
+      .addCase(updateProfile.rejected, (state, action) => {
+        toast.error(action.error.message || 'Failed to update profile');
       });
   },
 });
