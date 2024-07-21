@@ -173,15 +173,15 @@ const MessageComponent = ({ message, user, onMessageDelete }) => {
       >
         {!sameSender && (
           <Typography color={"#2694ab"} fontWeight={"600"} variant="caption">
-            {sender.name}
+            {sender?.name}
           </Typography>
         )}
 
         {content && <Typography variant="body1">{content}</Typography>}
 
-        {attachments.length > 0 &&
-          attachments.map((attachment, index) => {
-            const url = attachment.url;
+        {attachments?.length > 0 &&
+          attachments?.map((attachment, index) => {
+            const url = attachment?.url;
             const file = fileFormat(url);
 
             return (

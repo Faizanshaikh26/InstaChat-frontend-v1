@@ -104,7 +104,7 @@ const ChatItem = ({
         <div className="flex flex-col border-b-[1px]  w-full ">
           <span className="font-bold text-[16px] font-serif mb-2 ml-3">{name}</span>
           {newMessageAlert && (
-            <span className="text-[14px] mb-[2px]" >{newMessageAlert.count} New Message</span>
+            <span className="text-[14px] mb-[2px]" >{newMessageAlert?.count} New Message</span>
           )}
         </div>
         {isOnline && (

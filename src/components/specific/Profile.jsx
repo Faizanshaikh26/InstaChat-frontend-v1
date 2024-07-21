@@ -6,7 +6,7 @@ import UpdateProfile from "./UpdateProfile";
 
 function Profile({ user }) {
   const { avatar, bio, createdAt, email, name, username } = user;
-  const avatarUrl = avatar.url;
+  const avatarUrl = avatar?.url;
   const navigate=useNavigate()
 
   return (

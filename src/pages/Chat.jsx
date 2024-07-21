@@ -1168,22 +1168,22 @@ const Chat = ({ chatId, user ,handleUnsendChat}) => {
   };
 
 
-  useEffect(() => {
-    // Check if the page has reloaded
-    const hasReloaded = localStorage.getItem("hasReloaded") === "true";
-    if (hasReloaded) {
-      // Perform any necessary actions on reload
-      setTimeout(() => {
-        location.reload()
-        toast.loading("Wait for while...")
-      }, 10000);
+  // useEffect(() => {
+  //   // Check if the page has reloaded
+  //   const hasReloaded = localStorage.getItem("hasReloaded") === "true";
+  //   if (hasReloaded) {
+  //     // Perform any necessary actions on reload
+  //     setTimeout(() => {
+  //       location.reload()
+  //       toast.loading("Wait for while...")
+  //     }, 10000);
      
      
-      // Clear the flag
-      localStorage.removeItem("hasReloaded");
-    }
+  //     // Clear the flag
+  //     localStorage.removeItem("hasReloaded");
+  //   }
     
-  }, []);
+  // }, []);
   const submitHandler = (e) => {
     e.preventDefault();
 
@@ -1196,7 +1196,7 @@ const Chat = ({ chatId, user ,handleUnsendChat}) => {
   };
 
   useEffect(() => {
-    socket.emit(CHAT_JOINED, { userId: user._id, members });
+    socket.emit(CHAT_JOINED, { userId: user?._id, members });
     dispatch(removeNewMessagesAlert(chatId));
 
     return () => {
@@ -1204,7 +1204,7 @@ const Chat = ({ chatId, user ,handleUnsendChat}) => {
       setMessage("");
       setOldMessages([]);
       setPage(1);
-      socket.emit(CHAT_LEAVED, { userId: user._id, members });
+      socket.emit(CHAT_LEAVED, { userId: user?._id, members });
     };
   }, [chatId]);
 
@@ -1214,15 +1214,15 @@ const Chat = ({ chatId, user ,handleUnsendChat}) => {
   }, [messages]);
 
   useEffect(() => {
-    if (chatDetails.isError) return navigate("/");
-  }, [chatDetails.isError]);
+    if (chatDetails?.isError) return navigate("/");
+  }, [chatDetails?.isError]);
 
   const newMessagesListener = useCallback(
     (data) => {
-      if (data.chatId !== chatId) return;
+      if (data?.chatId !== chatId) return;
       
       // Check if the current user is not the sender
-      if (data.message.sender._id !== user._id) {
+      if (data?.message?.sender?._id !== user._id) {
         recivemessagenoti.play(); // Play the receiving sound
       }
       
@@ -1252,9 +1252,9 @@ const Chat = ({ chatId, user ,handleUnsendChat}) => {
 
   const alertListener = useCallback(
     (data) => {
-      if (data.chatId !== chatId) return;
+      if (data?.chatId !== chatId) return;
       const messageForAlert = {
-        content: data.message,
+        content: data?.message,
         sender: {
           _id: "djasdhajksdhasdsadasdas",
           name: "Admin",
@@ -1281,6 +1281,8 @@ const Chat = ({ chatId, user ,handleUnsendChat}) => {
 
   const allMessages = [...oldMessages, ...messages];
 
+  
+
   return chatDetails.isLoading ? (
     <Skeleton />
   ) : (
@@ -1303,7 +1305,7 @@ const Chat = ({ chatId, user ,handleUnsendChat}) => {
           backgroundPosition: 'center',
         }}
       >
-        {allMessages.map((i) => (
+        {allMessages?.map((i) => (
           <MessageComponent key={i._id} message={i} user={user} handleUnsendChat={handleUnsendChat}/>
         ))}
 

@@ -73,7 +73,7 @@ const ChatList = ({
     {chats?.map((data, index) => {
       const { _id, avatar, name, groupChat, members } = data;
 
-      const newMessagesAlerts = newMessagesAlert.find(
+      const newMessagesAlerts = newMessagesAlert?.find(
         ({ chatId }) => chatId === _id
       );
 

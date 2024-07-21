@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateProfile } from "../../redux/thunks/profile";
 import { toast } from "react-hot-toast";
-import { Navigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 
 const UpdateProfile = () => {
   const dispatch = useDispatch();
   const { user, loader } = useSelector((state) => state.auth); // Access user data and loader from Redux state
+  const navigate=useNavigate()
 
   // State to hold form data
   const [formData, setFormData] = useState({
@@ -60,7 +61,8 @@ const UpdateProfile = () => {
     try {
       await dispatch(updateProfile(data)).unwrap();
       toast.success("Profile updated successfully!");
-      <Navigate to='/'/>
+      navigate("/")
+     
       
     } catch (error) {
       toast.error(error.message || "Failed to update profile");
