@@ -775,7 +775,12 @@ const Header = ({ data, chatId, user, onlineUsers }) => {
               }}
             >
               <IconButton color="inherit" onClick={handleMobile}>
-                <MarkUnreadChatAlt />
+                <MarkUnreadChatAlt sx={{
+                  color:"#41B06E",
+                  fontSize:"35px",
+                
+                
+                }} />
               </IconButton>
             </Box>
 
@@ -850,7 +855,7 @@ const Header = ({ data, chatId, user, onlineUsers }) => {
               }}
             >
               <IconButton color="inherit" onClick={toggleDrawer}>
-                <MenuOpen />
+                <MenuOpen sx={{fontSize:"35px"}}/>
               </IconButton>
             </Box>
           </Toolbar>
