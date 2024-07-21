@@ -22,7 +22,7 @@ const api = createApi({
       }),
       providesTags: ["User"],
     }),
- 
+
     sendFriendRequest: builder.mutation({
       query: (data) => ({
         url: "user/sendrequest",
@@ -150,6 +150,14 @@ const api = createApi({
       }),
       invalidatesTags: ["Chat"],
     }),
+    unsendChat: builder.mutation({
+      query: (messageId) => ({
+        url: `chat/message/${messageId}`,
+        method: "DELETE",
+        credentials: "include",
+      }),
+      invalidatesTags: ["Chat"],
+    }),
 
     leaveGroup: builder.mutation({
       query: (chatId) => ({
@@ -179,6 +187,6 @@ export const {
   useRemoveGroupMemberMutation,
   useAddGroupMembersMutation,
   useDeleteChatMutation,
+  useUnsendChatMutation,
   useLeaveGroupMutation,
- 
 } = api;

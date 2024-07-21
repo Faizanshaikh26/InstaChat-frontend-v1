@@ -13,6 +13,8 @@ const initialState = {
     chatId: "",
     groupChat: false,
   },
+  isUnsendMenu: false,
+  selectedUnsendMessage: null,
 };
 
 const miscSlice = createSlice({
@@ -40,11 +42,18 @@ const miscSlice = createSlice({
     setIsDeleteMenu: (state, action) => {
       state.isDeleteMenu = action.payload;
     },
+    
     setUploadingLoader: (state, action) => {
       state.uploadingLoader = action.payload;
     },
     setSelectedDeleteChat: (state, action) => {
       state.selectedDeleteChat = action.payload;
+    },
+    setIsUnsendMenu: (state, action) => {
+      state.isUnsendMenu = action.payload;
+    },
+    setSelectedUnsendMessage: (state, action) => {
+      state.selectedUnsendMessage = action.payload;
     },
   },
 });
@@ -58,6 +67,8 @@ export const {
   setIsSearch,
   setIsFileMenu,
   setIsDeleteMenu,
+  setIsUnsendMenu,
   setUploadingLoader,
   setSelectedDeleteChat,
+  setSelectedUnsendMessage
 } = miscSlice.actions;

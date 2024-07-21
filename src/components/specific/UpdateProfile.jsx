@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateProfile } from "../../redux/thunks/profile";
 import { toast } from "react-hot-toast";
+import { Navigate } from "react-router-dom";
 
 const UpdateProfile = () => {
   const dispatch = useDispatch();
@@ -59,6 +60,8 @@ const UpdateProfile = () => {
     try {
       await dispatch(updateProfile(data)).unwrap();
       toast.success("Profile updated successfully!");
+      <Navigate to='/'/>
+      
     } catch (error) {
       toast.error(error.message || "Failed to update profile");
     }

@@ -181,13 +181,15 @@ import {
 import {
   setIsDeleteMenu,
   setIsMobile,
+  setIsUnsendMenu,
   setSelectedDeleteChat,
+  setSelectedUnsendMessage,
 } from "../../redux/reducers/misc";
 import { getSocket } from "../../socket";
 import DeleteChatMenu from "../dialogs/DeleteChatMenu";
+import UnsendChatMenu from "../dialogs/UnsendChatMenu";
 import Title from "../shared/Title";
 import ChatList from "../specific/ChatList";
-import Profile from "../specific/Profile";
 import Header from "./Header";
 
 const AppLayout = () => (WrappedComponent) => {
@@ -199,10 +201,13 @@ const AppLayout = () => (WrappedComponent) => {
 
     const chatId = params.chatId;
     const deleteMenuAnchor = useRef(null);
+    const unSendMenuAnchor = useRef(null);
 
     const [onlineUsers, setOnlineUsers] = useState([]);
 
-    const { isMobile } = useSelector((state) => state.misc);
+    const { isMobile, isUnsendMenu, selectedUnsendMessage } = useSelector(
+      (state) => state.misc
+    );
     const { user } = useSelector((state) => state.auth);
     const { newMessagesAlert } = useSelector((state) => state.chat);
 
@@ -219,6 +224,13 @@ const AppLayout = () => (WrappedComponent) => {
       dispatch(setSelectedDeleteChat({ chatId, groupChat }));
       deleteMenuAnchor.current = e.currentTarget;
     };
+
+    const handleUnsendChat = (e, messageId) => {
+      dispatch(setIsUnsendMenu(true));
+      dispatch(setSelectedUnsendMessage(messageId));
+      unSendMenuAnchor.current = e.currentTarget;
+    };
+    
 
     const handleMobileClose = () => dispatch(setIsMobile(false));
 
@@ -255,11 +267,21 @@ const AppLayout = () => (WrappedComponent) => {
     return (
       <>
         <Title />
-        <Header data={data} chatId={chatId} onlineUsers={onlineUsers} user={user}/>
+        <Header
+          data={data}
+          chatId={chatId}
+          onlineUsers={onlineUsers}
+          user={user}
+        />
 
         <DeleteChatMenu
           dispatch={dispatch}
           deleteMenuAnchor={deleteMenuAnchor}
+        />
+
+        <UnsendChatMenu
+          dispatch={dispatch}
+          unSendMenuAnchor={unSendMenuAnchor}
         />
 
         {isLoading ? (
@@ -299,11 +321,14 @@ const AppLayout = () => (WrappedComponent) => {
               />
             )}
           </Grid>
-          <Grid item xs={12} sm={7} md={8.5} lg={8.5}  height={"100%"}>
-            <WrappedComponent {...props} chatId={chatId} user={user} />
+          <Grid item xs={12} sm={7} md={8.5} lg={8.5} height={"100%"}>
+            <WrappedComponent
+              {...props}
+              chatId={chatId}
+              user={user}
+              handleUnsendChat={handleUnsendChat}
+            />
           </Grid>
-
-        
         </Grid>
       </>
     );
