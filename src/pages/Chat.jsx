@@ -1106,6 +1106,7 @@ import { useNavigate } from "react-router-dom";
 import whatsAppBg from '../assets/images/whats-appbg.jpg'
 import recivemessagenotisound from '../assets/sounds/whatsappreceive.mp3'
 import sendmessagenotisound from '../assets/sounds/whatsapprsend.mp3'
+import toast from "react-hot-toast";
 
 const Chat = ({ chatId, user ,handleUnsendChat}) => {
   const socket = getSocket();
@@ -1166,6 +1167,23 @@ const Chat = ({ chatId, user ,handleUnsendChat}) => {
     setFileMenuAnchor(e.currentTarget);
   };
 
+
+  useEffect(() => {
+    // Check if the page has reloaded
+    const hasReloaded = localStorage.getItem("hasReloaded") === "true";
+    if (hasReloaded) {
+      // Perform any necessary actions on reload
+      setTimeout(() => {
+        location.reload()
+        toast.loading("Wait for while...")
+      }, 10000);
+     
+     
+      // Clear the flag
+      localStorage.removeItem("hasReloaded");
+    }
+    
+  }, []);
   const submitHandler = (e) => {
     e.preventDefault();
 
