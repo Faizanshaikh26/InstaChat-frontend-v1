@@ -99,7 +99,7 @@ const MessageComponent = ({ message, user, onMessageDelete }) => {
   const { _id, sender, content, attachments = [], createdAt } = message;
 
   const sameSender = sender?._id === user?._id;
-  const timeAgo = moment(createdAt).fromNow();
+  const timeAgo = moment(createdAt).format("h:mm A");
 
   const handleContextMenu = (event) => {
     event.preventDefault(); // Prevent the default context menu
