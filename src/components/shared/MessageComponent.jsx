@@ -97,6 +97,7 @@ const MessageComponent = ({ message, user, onMessageDelete }) => {
   const [deltedMessage, setdeletedMessage] = useState(false);
 
   const { _id, sender, content, attachments = [], createdAt } = message;
+  console.log(_id,"s")
 
   const sameSender = sender?._id === user?._id;
   const timeAgo = moment(createdAt).format("h:mm A");
@@ -107,7 +108,7 @@ const MessageComponent = ({ message, user, onMessageDelete }) => {
     setOpenUnsendMenu(true); // Open the custom menu
   };
 
-  const toggleUnsendMenu = () => setOpenUnsendMenu(!openUnsendMenu);
+
 
   const handleUnsendChat = async () => {
     try {

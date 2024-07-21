@@ -205,7 +205,7 @@ const AppLayout = () => (WrappedComponent) => {
 
     const [onlineUsers, setOnlineUsers] = useState([]);
 
-    const { isMobile, isUnsendMenu, selectedUnsendMessage } = useSelector(
+    const { isMobile } = useSelector(
       (state) => state.misc
     );
     const { user } = useSelector((state) => state.auth);
