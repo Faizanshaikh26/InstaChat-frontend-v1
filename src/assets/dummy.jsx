@@ -10,9 +10,9 @@ import { server } from "../../constants/config";
 const MessageComponent = ({ message, user, onMessageDelete }) => {
   const [openUnsendMenu, setOpenUnsendMenu] = useState(false);
   const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
-  const unSendAnchor = useRef(null);
 
-  const [deltedMessage,setdeletedMessage] = useState(false)
+
+  const [deltedMessage, setdeletedMessage] = useState(false);
 
   const { _id, sender, content, attachments = [], createdAt } = message;
 
@@ -43,26 +43,28 @@ const MessageComponent = ({ message, user, onMessageDelete }) => {
       }
 
       const data = await response.json();
-      console.log(data.message); // Handle success message
+      // console.log(data.message); 
 
-      // Call the callback to remove the message from the UI
+
       if (onMessageDelete) {
         onMessageDelete(message._id);
       }
-      setdeletedMessage(true)
+      setdeletedMessage(true);
     } catch (error) {
       console.error("Error unsending message:", error.message || error);
     } finally {
       setOpenUnsendMenu(false); // Close the menu
     }
   };
-  if(deltedMessage)return null
+
+  if (deltedMessage) return null;
 
   return (
     <motion.div
-    initial={{ opacity: 0, x: "-100%" }}
-    whileInView={{ opacity: 1, x: 0 }}
-      onContextMenu={handleContextMenu} // Add the context menu handler
+      initial={{ opacity: 0, x: "-100%" }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: "100%", transition: { duration: 2 } }}
+      onContextMenu={handleContextMenu} 
       style={{
         alignSelf: sameSender ? "flex-end" : "flex-start",
         backgroundColor: sameSender ? "#d9fdd3" : "#ffffff",
@@ -140,9 +142,9 @@ const UnsendMenu = ({ position, onClose, onUnsend }) => {
       anchorReference="anchorPosition"
       anchorPosition={{ top: position.top, left: position.left }}
       sx={{
-        width:"8rem",
-        height:'8rem',
-        padding:'70px'
+        width: "8rem",
+        height: '8rem',
+        padding: '70px'
       }}
       PaperProps={{
         style: {
@@ -152,15 +154,14 @@ const UnsendMenu = ({ position, onClose, onUnsend }) => {
     >
       <MenuItem
         sx={{
-     
           padding: "0rem",
           cursor: "pointer",
         }}
         onClick={onUnsend}
       >
-        <DeleteIcon sx={{fontSize:"12px"} } />
+        <DeleteIcon sx={{ fontSize: "12px" }} />
         <Typography fontSize="10px">Unsend Message</Typography>
       </MenuItem>
     </Menu>
   );
-};
+}

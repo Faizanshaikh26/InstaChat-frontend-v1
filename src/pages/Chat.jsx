@@ -1069,16 +1069,10 @@
 
 // export default AppLayout()(Chat);
 
-import React, {
-  Fragment,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import AppLayout from "../components/layout/AppLayout";
 import { IconButton, Skeleton, Stack } from "@mui/material";
-import { grayColor, orange } from "../constants/color";
+import { grayColor } from "../constants/color";
 import {
   AttachFile as AttachFileIcon,
   Send as SendIcon,
@@ -1096,7 +1090,7 @@ import {
   STOP_TYPING,
 } from "../constants/events";
 import { useChatDetailsQuery, useGetMessagesQuery } from "../redux/api/api";
-import { useErrors, useSocketEvents } from "../hooks/hook";
+import { useErrors } from "../hooks/hook";
 import { useInfiniteScrollTop } from "6pp";
 import { useDispatch } from "react-redux";
 import { setIsFileMenu } from "../redux/reducers/misc";
@@ -1107,12 +1101,12 @@ import whatsAppBg from '../assets/images/whats-appbg.jpg'
 import recivemessagenotisound from '../assets/sounds/whatsappreceive.mp3'
 import sendmessagenotisound from '../assets/sounds/whatsapprsend.mp3'
 
-const Chat = ({ chatId, user ,handleUnsendChat}) => {
-  const socket = getSocket();
+const Chat = ({ chatId, user, handleUnsendChat }) => {
+  const socket = getSocket(); // Use the custom hook to access the socket instance
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const recivemessagenoti =new Audio(recivemessagenotisound)
-  const sendmessagenoti =new Audio(sendmessagenotisound)
+  const recivemessagenoti = new Audio(recivemessagenotisound)
+  const sendmessagenoti = new Audio(sendmessagenotisound)
 
   const containerRef = useRef(null);
   const bottomRef = useRef(null);
@@ -1199,41 +1193,29 @@ const Chat = ({ chatId, user ,handleUnsendChat}) => {
     if (chatDetails.isError) return navigate("/");
   }, [chatDetails.isError]);
 
-  const newMessagesListener = useCallback(
-    (data) => {
+  // Adding socket event listeners
+  useEffect(() => {
+    const newMessagesListener = (data) => {
       if (data.chatId !== chatId) return;
       
-      // Check if the current user is not the sender
       if (data.message.sender._id !== user._id) {
-        recivemessagenoti.play(); // Play the receiving sound
+        recivemessagenoti.play();
       }
       
       setMessages((prev) => [...prev, data.message]);
-    },
-    [chatId, user._id]
-  );
-  
+    };
 
-
-  const startTypingListener = useCallback(
-    (data) => {
+    const startTypingListener = (data) => {
       if (data.chatId !== chatId) return;
-
       setUserTyping(true);
-    },
-    [chatId]
-  );
+    };
 
-  const stopTypingListener = useCallback(
-    (data) => {
+    const stopTypingListener = (data) => {
       if (data.chatId !== chatId) return;
       setUserTyping(false);
-    },
-    [chatId]
-  );
+    };
 
-  const alertListener = useCallback(
-    (data) => {
+    const alertListener = (data) => {
       if (data.chatId !== chatId) return;
       const messageForAlert = {
         content: data.message,
@@ -1246,18 +1228,20 @@ const Chat = ({ chatId, user ,handleUnsendChat}) => {
       };
 
       setMessages((prev) => [...prev, messageForAlert]);
-    },
-    [chatId]
-  );
+    };
 
-  const eventHandler = {
-    [ALERT]: alertListener,
-    [NEW_MESSAGE]: newMessagesListener,
-    [START_TYPING]: startTypingListener,
-    [STOP_TYPING]: stopTypingListener,
-  };
+    socket.on(NEW_MESSAGE, newMessagesListener);
+    socket.on(START_TYPING, startTypingListener);
+    socket.on(STOP_TYPING, stopTypingListener);
+    socket.on(ALERT, alertListener);
 
-  useSocketEvents(socket, eventHandler);
+    return () => {
+      socket.off(NEW_MESSAGE, newMessagesListener);
+      socket.off(START_TYPING, startTypingListener);
+      socket.off(STOP_TYPING, stopTypingListener);
+      socket.off(ALERT, alertListener);
+    };
+  }, [chatId, user._id]);
 
   useErrors(errors);
 
