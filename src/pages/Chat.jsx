@@ -187,7 +187,6 @@ const Chat = ({ chatId, user, handleUnsendChat }) => {
   useErrors(errors);
 
   // Re-fetch data or reset state when reloadChat changes
- setTimeout(() => {
   useEffect(() => {
     if (reloadChat) {
       // Perform any necessary actions to reinitialize chat
@@ -199,7 +198,6 @@ const Chat = ({ chatId, user, handleUnsendChat }) => {
       setReloadChat(false); // Reset the reloadChat flag
     }
   }, [reloadChat, chatDetails, oldMessagesChunk]);
- }, 3000);
 
   const allMessages = [...oldMessages, ...messages];
 
