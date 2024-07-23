@@ -331,7 +331,7 @@ const ChatNavbar = ({ chat, onlineUsers }) => {
       >
         {name}
       </Typography>
-      {/* {isOnline ? (<span>Online</span>) : (<span>Offline</span>)} */}
+      {isOnline ? (<span>Online</span>) : (<span>Offline</span>)}
     </Box>
   </Box>
   );

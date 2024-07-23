@@ -11,7 +11,13 @@ import AppLayout from "../components/layout/AppLayout";
 import { IconButton, Skeleton, Stack } from "@mui/material";
 import { grayColor, orange } from "../constants/color";
 import {
+  ArrowBack,
+  ArrowDownward,
   AttachFile as AttachFileIcon,
+  Replay,
+  Reply,
+  Rotate90DegreesCcwRounded,
+  RotateRightTwoTone,
   Send as SendIcon,
 } from "@mui/icons-material";
 import { InputBox } from "../components/styles/StyledComponents";
@@ -220,6 +226,29 @@ const Chat = ({ chatId, user ,handleUnsendChat}) => {
           <MessageComponent key={i._id} message={i} user={user} handleUnsendChat={handleUnsendChat}/>
         ))}
 
+        <IconButton onClick={()=>window.location.reload()} sx={{
+          width:"40px",
+          bgcolor:"#d9fdd3",
+          position: "fixed",
+          bottom:'120px',
+          left:{
+            sx:"30px"
+          },
+          zIndex:999
+        }}>
+          <RotateRightTwoTone/>
+        </IconButton>
+        <IconButton sx={{
+          width:"40px",
+          bgcolor:"#d9fdd3",
+          position: "fixed",
+          bottom:'120px',
+          right:"30px",
+          zIndex:999
+        }}>
+          <ArrowDownward/>
+        </IconButton>
+
         {userTyping && <TypingLoader />}
 
         <div ref={bottomRef} />
@@ -259,12 +288,12 @@ const Chat = ({ chatId, user ,handleUnsendChat}) => {
             type="submit"
             sx={{
               rotate: "-30deg",
-              bgcolor: '#FFCB74',
-              color: "black",
+              bgcolor: '#d9fdd3',
+              color: "#111b21",
               marginLeft: "1rem",
               padding: "0.5rem",
               "&:hover": {
-                bgcolor: "error.dark",
+                bgcolor: "white",
               },
             }}
           >
