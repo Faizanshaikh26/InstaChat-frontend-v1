@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateProfile } from "../../redux/thunks/profile";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { Box, Avatar, Grid, Typography, Stack, Button } from "@mui/material";
+import { Box, Avatar, Grid, Typography, Stack, Button, IconButton } from "@mui/material";
+import { ArrowBackRounded, BackHand } from "@mui/icons-material";
 
 const UpdateProfile = () => {
   const dispatch = useDispatch();
@@ -85,10 +86,44 @@ const UpdateProfile = () => {
   }
 
   return (
-    <Box
+    <div style={{
+      backgroundImage:"url(https://ajcanjusao.cloudimg.io/v7/https://blog.1a23.com/wp-content/uploads/sites/2/2020/02/Desktop.png)",
+      backgroundSize:"cover",
+      backgroundPosition:"center",
+      width:"100%", 
+      height:"100vh",
+      display:"flex",
+      justifyContent:"center",
+      alignItems:"center",
+      position:"relative",
+    }}>
+       <Stack sx={{
+        position: "absolute",
+        width: "50px",
+        height: "50px",
+        borderRadius: "50%",
+        left: "30px",
+        top: "30px",
+        cursor: "pointer",
+        textAlign: "center",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        bgcolor: "green",
+        '&:hover': {
+          bgcolor: "lightgreen", // Change the background color on hover
+        },
+    
+      
+      }}>
+        <IconButton onClick={()=>navigate("/")}>
+          <ArrowBackRounded sx={{fontSize:"30px" ,fontWeight:"600", color:"black"}} />
+        </IconButton>
+      </Stack>
+     
+      <Box
       sx={{
         
-        backgroundColor: "#231E39",
         color: "#B3B8CD", 
         borderRadius: "8px",
         boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
@@ -105,6 +140,8 @@ const UpdateProfile = () => {
         },
       }}
     >
+     
+    
       <Box
         sx={{
           border: "2px solid #03BFCB",
@@ -153,7 +190,7 @@ const UpdateProfile = () => {
             </Typography>
             <Box
               component="input"
-              fullWidth
+          
               type="text"
               name="name"
               value={formData.name}
@@ -188,7 +225,7 @@ const UpdateProfile = () => {
             </Typography>
             <Box
               component="input"
-              fullWidth
+              
               type="text"
               name="username"
               value={formData.username}
@@ -212,7 +249,7 @@ const UpdateProfile = () => {
               <Typography sx={{ color: "#FFFFFF" }}>Bio:</Typography> {/* Change text color to white */}
               <Box
                 component="input"
-                fullWidth
+                
                 type="text"
                 name="bio"
                 value={formData.bio}
@@ -233,7 +270,7 @@ const UpdateProfile = () => {
               <Typography sx={{ color: "#FFFFFF" }}>Email:</Typography> {/* Change text color to white */}
               <Box
                 component="input"
-                fullWidth
+                
                 type="email"
                 name="email"
                 value={formData.email}
@@ -277,6 +314,7 @@ const UpdateProfile = () => {
         </Grid>
       </Box>
     </Box>
+    </div>
   );
 };
 

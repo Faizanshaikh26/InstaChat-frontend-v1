@@ -2,8 +2,8 @@ import React from "react";
 import { Helmet } from "react-helmet-async";
 
 const Title = ({
-  title = "Chat App",
-  description = "this is the Chat App called Chattu",
+  title = "InstaChat",
+  description = "InstaChat brings your conversations to life with quick messaging, easy file sharing, and dynamic group chats",
 }) => {
   return (
     <Helmet>

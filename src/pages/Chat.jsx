@@ -1,5 +1,3 @@
-
-
 import React, {
   Fragment,
   useCallback,
@@ -13,6 +11,7 @@ import { grayColor, orange } from "../constants/color";
 import {
   ArrowBack,
   ArrowDownward,
+  ArrowUpward,
   AttachFile as AttachFileIcon,
   Replay,
   Reply,
@@ -40,16 +39,16 @@ import { setIsFileMenu } from "../redux/reducers/misc";
 import { removeNewMessagesAlert } from "../redux/reducers/chat";
 import { TypingLoader } from "../components/layout/Loaders";
 import { useNavigate } from "react-router-dom";
-import whatsAppBg from '../assets/images/whats-appbg.jpg'
-import recivemessagenotisound from '../assets/sounds/whatsappreceive.mp3'
-import sendmessagenotisound from '../assets/sounds/whatsapprsend.mp3'
+import whatsAppBg from "../assets/images/whats-appbg.jpg";
+import recivemessagenotisound from "../assets/sounds/whatsappreceive.mp3";
+import sendmessagenotisound from "../assets/sounds/whatsapprsend.mp3";
 
-const Chat = ({ chatId, user ,handleUnsendChat}) => {
+const Chat = ({ chatId, user, handleUnsendChat }) => {
   const socket = getSocket();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const recivemessagenoti =new Audio(recivemessagenotisound)
-  const sendmessagenoti =new Audio(sendmessagenotisound)
+  const recivemessagenoti = new Audio(recivemessagenotisound);
+  const sendmessagenoti = new Audio(sendmessagenotisound);
 
   const containerRef = useRef(null);
   const bottomRef = useRef(null);
@@ -58,6 +57,7 @@ const Chat = ({ chatId, user ,handleUnsendChat}) => {
   const [messages, setMessages] = useState([]);
   const [page, setPage] = useState(1);
   const [fileMenuAnchor, setFileMenuAnchor] = useState(null);
+  const [isScrolledToTop, setIsScrolledToTop] = useState(false);
 
   const [IamTyping, setIamTyping] = useState(false);
   const [userTyping, setUserTyping] = useState(false);
@@ -110,7 +110,7 @@ const Chat = ({ chatId, user ,handleUnsendChat}) => {
 
     // Emitting the message to the server
     socket.emit(NEW_MESSAGE, { chatId, members, message });
-    sendmessagenoti.play()
+    sendmessagenoti.play();
     setMessage("");
   };
 
@@ -139,18 +139,16 @@ const Chat = ({ chatId, user ,handleUnsendChat}) => {
   const newMessagesListener = useCallback(
     (data) => {
       if (data.chatId !== chatId) return;
-      
+
       // Check if the current user is not the sender
       if (data.message.sender._id !== user._id) {
         recivemessagenoti.play(); // Play the receiving sound
       }
-      
+
       setMessages((prev) => [...prev, data.message]);
     },
     [chatId, user._id]
   );
-  
-
 
   const startTypingListener = useCallback(
     (data) => {
@@ -200,6 +198,28 @@ const Chat = ({ chatId, user ,handleUnsendChat}) => {
 
   const allMessages = [...oldMessages, ...messages];
 
+  // Handle scroll event to toggle buttons
+  const handleScroll = () => {
+    if (containerRef.current) {
+      const { scrollTop } = containerRef.current;
+      setIsScrolledToTop(scrollTop === 0);
+    }
+  };
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (container) {
+      container.addEventListener("scroll", handleScroll);
+      // Check initial scroll position
+      handleScroll();
+    }
+    return () => {
+      if (container) {
+        container.removeEventListener("scroll", handleScroll);
+      }
+    };
+  }, []);
+
   return chatDetails.isLoading ? (
     <Skeleton />
   ) : (
@@ -217,37 +237,80 @@ const Chat = ({ chatId, user ,handleUnsendChat}) => {
         }}
         style={{
           backgroundImage: `url(${whatsAppBg})`,
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat',
-          backgroundPosition: 'center',
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center",
         }}
       >
         {allMessages.map((i) => (
-          <MessageComponent key={i._id} message={i} user={user} handleUnsendChat={handleUnsendChat}/>
+          <MessageComponent
+            key={i._id}
+            message={i}
+            user={user}
+            handleUnsendChat={handleUnsendChat}
+          />
         ))}
 
-        <IconButton onClick={()=>window.location.reload()} sx={{
-          width:"40px",
-          bgcolor:"#d9fdd3",
-          position: "fixed",
-          bottom:'120px',
-          left:{
-            sx:"30px"
-          },
-          zIndex:999
-        }}>
-          <RotateRightTwoTone/>
+        <IconButton
+          onClick={() => window.location.reload()}
+          sx={{
+            width: "40px",
+            bgcolor: "#d9fdd3",
+            position: "fixed",
+            bottom: "120px",
+            left: {
+              sx: "30px",
+            },
+            zIndex: 999,
+          }}
+        >
+          <RotateRightTwoTone />
         </IconButton>
-        <IconButton sx={{
-          width:"40px",
-          bgcolor:"#d9fdd3",
-          position: "fixed",
-          bottom:'120px',
-          right:"30px",
-          zIndex:999
-        }}>
-          <ArrowDownward/>
-        </IconButton>
+
+        {/* Toggle button based on scroll position */}
+        {isScrolledToTop ? (
+          <IconButton
+            onClick={() => {
+              if (containerRef.current) {
+                containerRef.current.scrollTo({
+                  top: containerRef.current.scrollHeight,
+                  behavior: "smooth",
+                });
+              }
+            }}
+            sx={{
+              width: "40px",
+              bgcolor: "#d9fdd3",
+              position: "fixed",
+              bottom: "120px",
+              right: "30px",
+              zIndex: 999,
+            }}
+          >
+            <ArrowDownward />
+          </IconButton>
+        ) : (
+          <IconButton
+            onClick={() => {
+              if (containerRef.current) {
+                containerRef.current.scrollTo({
+                  top: 0,
+                  behavior: "smooth",
+                });
+              }
+            }}
+            sx={{
+              width: "40px",
+              bgcolor: "#d9fdd3",
+              position: "fixed",
+              bottom: "120px",
+              right: "30px",
+              zIndex: 999,
+            }}
+          >
+            <ArrowUpward />
+          </IconButton>
+        )}
 
         {userTyping && <TypingLoader />}
 
@@ -288,7 +351,7 @@ const Chat = ({ chatId, user ,handleUnsendChat}) => {
             type="submit"
             sx={{
               rotate: "-30deg",
-              bgcolor: '#d9fdd3',
+              bgcolor: "#d9fdd3",
               color: "#111b21",
               marginLeft: "1rem",
               padding: "0.5rem",

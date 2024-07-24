@@ -23,7 +23,7 @@ export const updateProfile = createAsyncThunk(
       );
       console.log("sending", formData);
       toast.success("Profile updated successfully!");
-      console.log("server", response.data);
+    
       return response.data;
     } catch (error) {
       toast.error(error.response?.data?.message || "Failed to update profile");

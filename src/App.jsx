@@ -9,7 +9,9 @@ import { userExists, userNotExists } from "./redux/reducers/auth";
 import { Toaster } from "react-hot-toast";
 import { SocketProvider } from "./socket";
 import UpdateProfile from "./components/specific/UpdateProfile";
-import './index.css'
+import './index.css';
+import ForgotPassword from "./pages/ForgotPassword";
+import ChangePassword from "./pages/ChangePassword";
 
 const Home = lazy(() => import("./pages/Home"));
 const Login = lazy(() => import("./pages/Login"));
@@ -43,6 +45,11 @@ const App = () => {
     <BrowserRouter>
       <Suspense fallback={<LayoutLoader />}>
         <Routes>
+          {/* Public route */}
+          <Route path="/forgotpassword" element={<ForgotPassword />} />
+          <Route path="/reset-password/:token" element={<ChangePassword/>}/>
+          
+          {/* Protected routes for authenticated users */}
           <Route
             element={
               <SocketProvider>
@@ -53,9 +60,10 @@ const App = () => {
             <Route path="/" element={<Home />} />
             <Route path="/chat/:chatId" element={<Chat />} />
             <Route path="/groups" element={<Groups />} />
-            <Route path="/updateProfile" element={<UpdateProfile/>}/>
+            <Route path="/updateProfile" element={<UpdateProfile />} />
           </Route>
 
+          {/* Route for login, protected for non-authenticated users */}
           <Route
             path="/login"
             element={
@@ -65,12 +73,14 @@ const App = () => {
             }
           />
 
+          {/* Admin routes */}
           <Route path="/admin" element={<AdminLogin />} />
           <Route path="/admin/dashboard" element={<Dashboard />} />
           <Route path="/admin/users" element={<UserManagement />} />
           <Route path="/admin/chats" element={<ChatManagement />} />
           <Route path="/admin/messages" element={<MessagesManagement />} />
 
+          {/* Fallback route for 404 Not Found */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>

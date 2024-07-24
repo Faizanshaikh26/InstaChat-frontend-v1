@@ -1,13 +1,12 @@
 import React from "react";
-import { Avatar, Box, Grid, Stack, Typography } from "@mui/material";
+import { Avatar, Box, Grid, Typography } from "@mui/material";
 import moment from "moment";
-import {useNavigate} from 'react-router-dom'
-import UpdateProfile from "./UpdateProfile";
+import { useNavigate } from "react-router-dom";
 
 function Profile({ user }) {
   const { avatar, bio, createdAt, email, name, username } = user;
   const avatarUrl = avatar?.url;
-  const navigate=useNavigate()
+  const navigate = useNavigate();
 
   return (
     <Box
@@ -41,12 +40,12 @@ function Profile({ user }) {
           position: "absolute",
           top: "20px",
           left: "20px",
+          cursor: "pointer"
         }}
-        onClick={()=>navigate("/updateProfile")}
+        onClick={() => navigate('/updateProfile')}
       >
         Edit Profile
-        </Box>
-      
+      </Box>
       <Box
         sx={{
           border: "2px solid #03BFCB",
@@ -80,10 +79,10 @@ function Profile({ user }) {
           }}
         >
           <Grid item xs={12} sm={6}>
-            <h3
+            <Typography
+              variant="h6"
               sx={{
                 margin: "8px 0",
-                fontSize: "1.25rem",
                 fontWeight: "bold",
                 "@media (max-width: 600px)": {
                   fontSize: "1rem",
@@ -91,13 +90,13 @@ function Profile({ user }) {
               }}
             >
               Name: {name}
-            </h3>
+            </Typography>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <h6
+            <Typography
+              variant="body2"
               sx={{
                 margin: "8px 0",
-                fontSize: "0.875rem",
                 textTransform: "uppercase",
                 "@media (max-width: 600px)": {
                   fontSize: "0.75rem",
@@ -105,10 +104,11 @@ function Profile({ user }) {
               }}
             >
               Username: {username}
-            </h6>
+            </Typography>
           </Grid>
           <Grid item xs={12}>
             <Typography
+              variant="body2"
               sx={{
                 fontSize: "0.875rem",
                 lineHeight: "1.5",
@@ -116,14 +116,15 @@ function Profile({ user }) {
                   fontSize: "0.75rem",
                 },
               }}
-            ></Typography>
-           <Stack className="mt-5">   Bio: {bio} <br /> </Stack>
-
-              <div className="flex gap-[100px] mt-10">
-              <Stack className="flex">Email: <br/> {email}</Stack>
-              <Stack> Joined: <br/>{moment(createdAt).fromNow()}</Stack>
-              </div>
-        
+            >
+              <Box sx={{ mt: 5 }}>
+                Bio: {bio}
+              </Box>
+              <Box sx={{ display: 'flex', gap: '100px', mt: 10 }}>
+                <Box>Email: {email}</Box>
+                <Box>Joined: {moment(createdAt).fromNow()}</Box>
+              </Box>
+            </Typography>
           </Grid>
         </Grid>
       </Box>

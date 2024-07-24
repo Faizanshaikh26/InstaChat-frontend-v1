@@ -13,7 +13,7 @@ import { server } from "../../constants/config";
 const MessageComponent = ({ message, user, onMessageDelete }) => {
   const [openUnsendMenu, setOpenUnsendMenu] = useState(false);
   const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
-  const unSendAnchor = useRef(null);
+
 
   const [deltedMessage, setdeletedMessage] = useState(false);
 
@@ -38,7 +38,7 @@ const MessageComponent = ({ message, user, onMessageDelete }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        credentials: "include", // Include credentials if required
+        credentials: "include",
       });
 
       if (!response.ok) {
@@ -57,7 +57,7 @@ const MessageComponent = ({ message, user, onMessageDelete }) => {
     } catch (error) {
       console.error("Error unsending message:", error.message || error);
     } finally {
-      setOpenUnsendMenu(false); // Close the menu
+      setOpenUnsendMenu(false); 
     }
   };
 
@@ -80,7 +80,7 @@ const MessageComponent = ({ message, user, onMessageDelete }) => {
         margin: "0.5rem 0",
         boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
         wordWrap: "break-word",
-        position: "relative", // Ensure relative positioning for the menu
+        position: "relative",
       }}
     >
       <Stack

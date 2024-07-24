@@ -8,11 +8,16 @@ import { userExists } from "../redux/reducers/auth";
 import { usernameValidator } from "../utils/validators";
 import signupBg from '../assets/images/signup.jpg'
 import logo from '../assets/images/logo.png'
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { Link } from "react-router-dom";
 
 
 const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [ispassOpen,setispassOpen]=useState(false)
+
+  const togglePassword=()=>setispassOpen(!ispassOpen)
   const [avatar, setAvatar] = useState({
     preview: 'https://cdn.pixabay.com/photo/2018/11/13/21/43/avatar-3814049_1280.png',
     file: null
@@ -32,6 +37,7 @@ const Login = () => {
   const bio = useInputValidation("");
   const username = useInputValidation("", usernameValidator);
   const password = useInputValidation("");
+  const email = useInputValidation("");
 
   // const avatar = useFileHandler("single");
 
@@ -54,7 +60,7 @@ const Login = () => {
       const { data } = await axios.post(
         `${server}/api/v1/user/login`,
         {
-          username: username.value,
+          email: email.value,
           password: password.value,
         },
         config
@@ -88,6 +94,7 @@ const Login = () => {
     formData.append("bio", bio.value);
     formData.append("username", username.value);
     formData.append("password", password.value);
+    formData.append("email", email.value);
 
     const config = {
       withCredentials: true,
@@ -148,14 +155,21 @@ const Login = () => {
 
           <form className="space-y-4 md:space-y-6" onSubmit={handleLogin}>
             <div>
-              <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">UserName</label>
-              <input type="text" name="login" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-teal-600 focus:border-teal-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="UserName"  value={username.value}
-                  onChange={username.changeHandler}  />
+              <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+              <input type="email" name="login" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-teal-600 focus:border-teal-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Email"  value={email.value}
+                  onChange={email.changeHandler}  />
             </div>
-            <div>
+            <div  className="relative">
               <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-              <input type="password" name="password" id="password" placeholder="Password" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-teal-600 focus:border-teal-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required value={password.value}
+              <input type={ispassOpen ? "password" :"text"} name="password" id="password" placeholder="Password" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-teal-600 focus:border-teal-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required value={password.value}
                   onChange={password.changeHandler}/>
+                   {
+                ispassOpen ? <div className="absolute top-[38px] right-0 mr-3" onClick={togglePassword}>
+                <Visibility sx={{color:"black",fontSize:"20px"}}/>
+              </div> :  <div className="absolute top-[38px] right-0 mr-3" onClick={togglePassword}>
+                <VisibilityOff sx={{color:"black",fontSize:"20px"}}/>
+              </div>
+              }
             </div>
             <div className="flex items-center justify-between">
               <div className="flex items-start">
@@ -166,7 +180,7 @@ const Login = () => {
                   <label htmlFor="remember" className="text-gray-500 dark:text-gray-300">Remember me</label>
                 </div>
               </div>
-              <a href="" className="text-sm font-medium text-teal-600 hover:underline dark:text-teal-500">Forgot password?</a>
+          <Link to="/forgotpassword"><span className="text-sm font-medium text-teal-600 hover:underline dark:text-teal-500">Forgot password?</span></Link>
             </div>
             <button type="submit" className="text-white bg-teal-600 py-1.5 px-4 rounded font-bold w-full" disabled={isLoading}>
             Login
@@ -201,11 +215,10 @@ const Login = () => {
               <div className="bg-white/90 rounded-full w-6 h-6 text-center ml-28 mt-4">
                 <input
                   type="file"
-                 
                   name="profile"
                   id="upload_profile"
                   hidden
-                  required
+                 
                   onChange={handleAvatarChange}
                 />
                 <label htmlFor="upload_profile">
@@ -260,6 +273,17 @@ const Login = () => {
           </div>
           <div className="flex lg:flex-row md:flex-col sm:flex-col xs:flex-col gap-2 justify-center w-full">
             <div className="w-full">
+              <h3 className="dark:text-gray-300 mb-2">Email</h3>
+              <input
+                type="email"
+
+                className="mt-2 p-4 w-full border-2 rounded-lg text-black dark:text-gray-200 dark:border-gray-600 dark:bg-gray-800"
+                placeholder="Email"
+                value={email.value}
+                onChange={email.changeHandler}
+              />
+            </div>
+            <div className="w-full">
               <h3 className="dark:text-gray-300 mb-2">Bio</h3>
               <input
                 type="text"
@@ -270,15 +294,23 @@ const Login = () => {
                 onChange={bio.changeHandler}
               />
             </div>
-            <div className="w-full">
+            <div className="w-full relative">
               <h3 className="dark:text-gray-300 mb-2">Password</h3>
               <input
-                type="password"
+                type={ispassOpen ? "password" : "text"}
                 className="mt-2 p-4 w-full border-2 rounded-lg text-black dark:text-gray-200 dark:border-gray-600 dark:bg-gray-800"
                 placeholder="Password"
                 value={password.value}
                 onChange={password.changeHandler}
               />
+              {
+                ispassOpen ? <div className="absolute top-[57px] right-0 mr-3" onClick={togglePassword}>
+                <Visibility sx={{color:"black"}}/>
+              </div> :  <div className="absolute top-[57px] right-0 mr-3" onClick={togglePassword}>
+                <VisibilityOff sx={{color:"black"}}/>
+              </div>
+              }
+             
             </div>
           </div>
           <div className="w-full rounded-lg bg-[#024d1d] mt-4 text-white text-lg font-semibold">
