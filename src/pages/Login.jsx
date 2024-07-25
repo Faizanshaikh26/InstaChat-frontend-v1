@@ -161,15 +161,15 @@ const Login = () => {
             </div>
             <div  className="relative">
               <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-              <input type={ispassOpen ? "password" :"text"} name="password" id="password" placeholder="Password" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-teal-600 focus:border-teal-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required value={password.value}
+              <input type={ispassOpen ? "text" :"password"} name="password" id="password" placeholder="Password" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-teal-600 focus:border-teal-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required value={password.value}
                   onChange={password.changeHandler}/>
-                   {
-                ispassOpen ? <div className="absolute top-[38px] right-0 mr-3" onClick={togglePassword}>
-                <Visibility sx={{color:"black",fontSize:"20px"}}/>
-              </div> :  <div className="absolute top-[38px] right-0 mr-3" onClick={togglePassword}>
-                <VisibilityOff sx={{color:"black",fontSize:"20px"}}/>
-              </div>
-              }
+                   <div className="absolute top-[38px] right-0 mr-3" onClick={togglePassword}>
+                          {ispassOpen ? (
+                            <Visibility sx={{ color: "black", fontSize: "20px" }} />
+                          ) : (
+                            <VisibilityOff sx={{ color: "black", fontSize: "20px" }} />
+                          )}
+                        </div>
             </div>
             <div className="flex items-center justify-between">
               <div className="flex items-start">
@@ -297,17 +297,18 @@ const Login = () => {
             <div className="w-full relative">
               <h3 className="dark:text-gray-300 mb-2">Password</h3>
               <input
-                type={ispassOpen ? "password" : "text"}
+                type={ispassOpen ? "text" : "password"}
                 className="mt-2 p-4 w-full border-2 rounded-lg text-black dark:text-gray-200 dark:border-gray-600 dark:bg-gray-800"
                 placeholder="Password"
                 value={password.value}
                 onChange={password.changeHandler}
               />
               {
-                ispassOpen ? <div className="absolute top-[57px] right-0 mr-3" onClick={togglePassword}>
+                <div className="absolute top-[57px] right-0 mr-3" onClick={togglePassword}>
+               { ispassOpen ? 
                 <Visibility sx={{color:"black"}}/>
-              </div> :  <div className="absolute top-[57px] right-0 mr-3" onClick={togglePassword}>
-                <VisibilityOff sx={{color:"black"}}/>
+             : 
+                <VisibilityOff sx={{color:"black"}}/>}
               </div>
               }
              
