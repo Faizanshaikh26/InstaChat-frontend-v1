@@ -1,3 +1,12 @@
+import { useInfiniteScrollTop } from "6pp";
+import {
+  ArrowDownward,
+  ArrowUpward,
+  AttachFile as AttachFileIcon,
+  RotateRightTwoTone,
+  Send as SendIcon
+} from "@mui/icons-material";
+import { IconButton, Skeleton, Stack } from "@mui/material";
 import React, {
   Fragment,
   useCallback,
@@ -5,24 +14,17 @@ import React, {
   useRef,
   useState,
 } from "react";
-import AppLayout from "../components/layout/AppLayout";
-import { IconButton, Skeleton, Stack } from "@mui/material";
-import { grayColor, orange } from "../constants/color";
-import {
-  ArrowBack,
-  ArrowDownward,
-  ArrowUpward,
-  AttachFile as AttachFileIcon,
-  Replay,
-  Reply,
-  Rotate90DegreesCcwRounded,
-  RotateRightTwoTone,
-  Send as SendIcon,
-} from "@mui/icons-material";
-import { InputBox } from "../components/styles/StyledComponents";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import whatsAppBg from "../assets/images/whats-appbg.jpg";
+import recivemessagenotisound from "../assets/sounds/whatsappreceive.mp3";
+import sendmessagenotisound from "../assets/sounds/whatsapprsend.mp3";
 import FileMenu from "../components/dialogs/FileMenu";
+import AppLayout from "../components/layout/AppLayout";
+import { TypingLoader } from "../components/layout/Loaders";
 import MessageComponent from "../components/shared/MessageComponent";
-import { getSocket } from "../socket";
+import { InputBox } from "../components/styles/StyledComponents";
+import { grayColor } from "../constants/color";
 import {
   ALERT,
   CHAT_JOINED,
@@ -31,17 +33,11 @@ import {
   START_TYPING,
   STOP_TYPING,
 } from "../constants/events";
-import { useChatDetailsQuery, useGetMessagesQuery } from "../redux/api/api";
 import { useErrors, useSocketEvents } from "../hooks/hook";
-import { useInfiniteScrollTop } from "6pp";
-import { useDispatch } from "react-redux";
-import { setIsFileMenu } from "../redux/reducers/misc";
+import { useChatDetailsQuery, useGetMessagesQuery } from "../redux/api/api";
 import { removeNewMessagesAlert } from "../redux/reducers/chat";
-import { TypingLoader } from "../components/layout/Loaders";
-import { useNavigate } from "react-router-dom";
-import whatsAppBg from "../assets/images/whats-appbg.jpg";
-import recivemessagenotisound from "../assets/sounds/whatsappreceive.mp3";
-import sendmessagenotisound from "../assets/sounds/whatsapprsend.mp3";
+import { setIsFileMenu } from "../redux/reducers/misc";
+import { getSocket } from "../socket";
 
 const Chat = ({ chatId, user, handleUnsendChat }) => {
   const socket = getSocket();

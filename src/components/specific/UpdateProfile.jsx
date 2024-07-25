@@ -74,6 +74,7 @@ const UpdateProfile = () => {
       await dispatch(updateProfile(data)).unwrap();
       toast.success("Profile updated successfully!");
       navigate("/");
+      window.location.reload()
     } catch (error) {
       toast.error(error.message || "Failed to update profile");
     } finally {
