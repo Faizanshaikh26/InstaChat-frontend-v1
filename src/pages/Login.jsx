@@ -8,7 +8,7 @@ import { userExists } from "../redux/reducers/auth";
 import { usernameValidator } from "../utils/validators";
 import signupBg from '../assets/images/signup.jpg'
 import logo from '../assets/images/logo.png'
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { Visibility, VisibilityOff, VpnKey } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 
 
@@ -149,8 +149,9 @@ const Login = () => {
 
           <div className="flex items-center">
             <div className="w-full h-0.5 bg-gray-200 dark:bg-gray-700"></div>
-            <div className="px-5 text-center text-gray-500 dark:text-gray-400"></div>
+            <div className="px-5 text-center text-gray-500 dark:text-gray-400"><VpnKey/></div>
             <div className="w-full h-0.5 bg-gray-200 dark:bg-gray-700"></div>
+            
           </div>
 
           <form className="space-y-4 md:space-y-6" onSubmit={handleLogin}>
