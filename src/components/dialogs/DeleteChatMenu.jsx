@@ -82,7 +82,7 @@ const DeleteChatMenu = ({ dispatch, deleteMenuAnchor }) => {
         ) : (
           <>
             <DeleteIcon />
-            <Typography>Delete Chat</Typography>
+            <Typography>Remove </Typography>
           </>
         )}
       </Stack>

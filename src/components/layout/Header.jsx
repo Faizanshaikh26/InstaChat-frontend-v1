@@ -28,6 +28,9 @@ import {
   MenuOpen,
   MarkUnreadChatAlt,
   AccountCircle,
+  Add,
+  GroupAdd,
+  Groups,
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -149,20 +152,20 @@ const Header = ({ data, chatId, user, onlineUsers }) => {
               }}
             >
               <IconBtn
-                title={"Search"}
-                icon={<SearchIcon />}
+                title={"Add"}
+                icon={<Add/>}
                 onClick={openSearch}
               />
 
               <IconBtn
                 title={"New Group"}
-                icon={<AddIcon />}
+                icon={<GroupAdd/>}
                 onClick={openNewGroup}
               />
 
               <IconBtn
                 title={"Manage Groups"}
-                icon={<GroupIcon />}
+                icon={<Groups/>}
                 onClick={navigateToGroup}
               />
 
@@ -205,19 +208,19 @@ const Header = ({ data, chatId, user, onlineUsers }) => {
         <List>
           <ListItem button onClick={openSearch}>
             <ListItemIcon>
-              <SearchIcon />
+              <Add/>
             </ListItemIcon>
-            <ListItemText primary="Search" />
+            <ListItemText primary="Add Friend" />
           </ListItem>
           <ListItem button onClick={openNewGroup}>
             <ListItemIcon>
-              <AddIcon />
+              <GroupAdd />
             </ListItemIcon>
             <ListItemText primary="New Group" />
           </ListItem>
           <ListItem button onClick={navigateToGroup}>
             <ListItemIcon>
-              <GroupIcon />
+              <Groups />
             </ListItemIcon>
             <ListItemText primary="Manage Groups" />
           </ListItem>
