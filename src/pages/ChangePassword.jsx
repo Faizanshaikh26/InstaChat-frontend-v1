@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { server } from "../constants/config";
 import { ClipLoader } from "react-spinners";
 import { css } from "@emotion/react";
+import logo from '../assets/images/logo.png'
 
 function ChangePassword() {
   const { token } = useParams();
@@ -40,7 +41,6 @@ function ChangePassword() {
       setMessage(data.message);
       window.location.replace("/login");
     } catch (error) {
-      console.error("Reset password error:", error.message);
       setMessage(error.message || "An error occurred while resetting password");
     } finally {
       setLoading(false);
@@ -56,8 +56,8 @@ function ChangePassword() {
           className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
         >
           <img
-            className="w-10 h-10 mr-2"
-            src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"
+            className="w-10 h-10 mr-3"
+            src={logo}
             alt="logo"
           />
           InstaCHat

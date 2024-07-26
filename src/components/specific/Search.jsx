@@ -44,7 +44,7 @@ const Search = () => {
       searchUser(search.value)
         .then(({ data }) => setUsers(data.users))
         .catch((e) => console.log(e));
-    }, 1000);
+    }, 500);
 
     return () => {
       clearTimeout(timeOutId);
@@ -76,7 +76,7 @@ const Search = () => {
         />
 
         <List>
-          {users.map((i) => (
+          {users?.map((i) => (
             <UserItem
               user={i}
               key={i._id}

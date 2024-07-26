@@ -11,8 +11,6 @@ function ForgotPassword() {
   const handleForgotPassword = async (e) => {
     e.preventDefault();
     setLoading(true);
-    console.log('Sending forgot password request');
-  
     try {
       const response = await fetch(`${server}/api/v1/user/forgotPassword`, {
         method: 'POST',
@@ -23,16 +21,13 @@ function ForgotPassword() {
         body: JSON.stringify({ email }),
       });
   
-      console.log('HTTP Response Status:', response.status);
-  
-      // Check if the response is JSON
+
       const contentType = response.headers.get('content-type');
       if (contentType && contentType.includes('application/json')) {
         const resData = await response.json();
-        console.log('Response received:', resData);
+      
   
         if (!response.ok) {
-          console.error('Error response data:', resData);
           throw new Error(resData.error || 'Failed to send email');
         }
   
