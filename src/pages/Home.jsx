@@ -30,7 +30,7 @@ const Home = () => {
           marginBottom:"1rem",
           }}
         >
-          Welcome to ChatApp
+          Welcome to InstaChat
         </Typography>
         <Typography
           variant="h5"
